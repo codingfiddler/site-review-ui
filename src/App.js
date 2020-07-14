@@ -40,7 +40,6 @@ function App() {
           >
             Learn React
           </a>
-          {/* <InputFormTheFirst /> */}
           </div>
 
         </header>
