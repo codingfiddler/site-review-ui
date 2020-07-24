@@ -11,6 +11,9 @@ phases:
       - yarn build
 
 artifacts:
+  type: "S3"
+  location: "arn:aws:s3:::site-review-ui"
+  name: "/"
   base-directory: ./build
   files:
     - '**/*'
