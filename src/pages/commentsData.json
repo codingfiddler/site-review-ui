@@ -1,33 +1,38 @@
 {
     "page1": {
-        "comments": [{
-                "commentId": 1,
+        "comments": {
+            "1": {
+                "commentThreadId": "1",
                 "userId": "christinealuo",
                 "comment": "This is an awesome page!",
                 "rating": 5,
-                "dateCommentCreated": "2020-01-01"
+                "dateCommentCreated": "2020-01-01",
+                "thread": {}
             },
-            {
-                "commentId": 2,
+            "2": {
+                "commentThreadId": "2",
                 "userId": "helloworld",
                 "comment": "Maybe change the layout of this page?",
                 "rating": 3,
-                "dateCommentCreated": "2020-02-02"
+                "dateCommentCreated": "2020-02-02",
+                "thread": {}
             },
-            {
-                "commentId": 3,
+            "3": {
+                "commentThreadId": "3",
                 "userId": "worldhello",
                 "comment": "It would be nice to have contact information on this page",
                 "rating": 4,
-                "dateCommentCreated": "2020-03-03"
+                "dateCommentCreated": "2020-03-03",
+                "thread": {}
             },
-            {
-                "commentId": 4,
+            "4": {
+                "commentThreadId": "4",
                 "userId": "christinealuo",
                 "comment": "Christine here again. These comments are awesome!",
                 "rating": 5,
-                "dateCommentCreated": "2020-04-04"
+                "dateCommentCreated": "2020-04-04",
+                "thread": {}
             }
-        ]
+        }
     }
 }

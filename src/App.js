@@ -1,25 +1,21 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import NavBar from "./components/NavBar.jsx"
-import Signin from "./components/Signin.jsx"
-import Signup from "./components/Signup.jsx"
-import ReviewPageContent from "./pages/ReviewPageContent.jsx"
-import Welcome from "./components/Welcome.jsx"
-import Dashboard from "./components/Dashboard.jsx"
+import React from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import NavBar from "./components/NavBar.jsx";
+import Signin from "./pages/Signin.jsx";
+import Signup from "./pages/Signup.jsx";
+import ReviewPageContent from "./pages/ReviewPageContent.jsx";
+import Welcome from "./components/Welcome.jsx";
+import Dashboard from "./components/Dashboard.jsx";
+import Pages from "./pages/Pages";
 
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 function App() {
   return (
     <Router>
       <div>
-        { /*
+        {/*
         <nav>
           <ul>
             <li>
@@ -39,7 +35,7 @@ function App() {
           <Route exact path="/">
             <Welcome />
           </Route>
-        <Route path="/dashboard">
+          <Route path="/dashboard">
             <Dashboard />
           </Route>
           <Route path="/signup">
@@ -50,6 +46,9 @@ function App() {
           </Route>
           <Route path="/review">
             <ReviewPageContent />
+          </Route>
+          <Route path="/pages">
+            <Pages />
           </Route>
         </Switch>
       </div>
