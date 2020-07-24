@@ -3,6 +3,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import TypoGraphy from '@material-ui/core/Typography'
+import ReviewPageContent from "../pages/ReviewPageContent.jsx"
 import { Home, Settings, RateReview} from '@material-ui/icons'
 import {
   BrowserRouter as Router,
@@ -10,8 +11,10 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import Welcome from "./Welcome.jsx"
 import Signin from "../pages/Signin.jsx"
 import Signup from "../pages/Signup.jsx"
+
 
 export default class NavBar extends Component{
   constructor() {
@@ -43,42 +46,48 @@ export default class NavBar extends Component{
       <ListItem component="div">
           <ListItemText inset>
               <TypoGraphy color="inherit" variant="title">
-                  <RateReview/> 
+                   <Link to="/"> 
+                   <RateReview/> 
+                   </Link>
          </TypoGraphy>
           </ListItemText>
-          <ListItemText inset>
-              
-          </ListItemText>
+         
 
 
           <ListItemText inset>
               <TypoGraphy color="inherit" variant="title">
               <li onClick={this.showMenu}><Link to="/dashboard">My Dashboard <Home /></Link></li>
-              {
+              {/* {
           this.state.showMenu
             ? (
               <div className = "menu">
                 <button onClick={this.showMenu}>My Sites </button>
                 <button >Sites </button>
                 <button>Pages </button>
-                <button>Page Content </button>
+                <Link to = "/review"> <button >Page Content </button> </Link>
                 <button>My Pages </button>
               </div>
             )
             : (
               null
             )
-        }
+        } */}
 
               
-         </TypoGraphy>
+         </TypoGraphy> 
+         
           </ListItemText>
+          <ListItemText inset>
+          <TypoGraphy color="inherit" variant="title">
+              <li><Link to="/review"> Page Content  </Link></li> 
+              </TypoGraphy>
+            </ListItemText>
 
 
           <ListItemText inset>
               <TypoGraphy color="inherit" variant="title">
-              <li onClick={this.showMenu}><Link to="/settings">Settings <Settings /></Link></li> 
-              {
+              <li onClick={this.showMenu}><Link to="/signin">Sign In <Settings /></Link></li> 
+              {/* {
           this.state.showMenu
             ? (
               <div className = "menu2">
@@ -89,7 +98,7 @@ export default class NavBar extends Component{
             : (
               null
             )
-        }
+        } */}
          </TypoGraphy>
           </ListItemText>
       </ListItem >

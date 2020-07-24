@@ -1,0 +1,62 @@
+#title {
+    text-align: center;
+    font-family: arial, sans-serif;
+  }
+  
+  #sites {
+    text-align: center;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    border: 3px solid #ddd;
+    width: 100%;
+  }
+  
+  #sites td, #sites th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  #sites tr:nth-child(even){background-color: #f2f2f2;}
+  
+  #sites tr:hover {background-color: #add8e6;}
+  
+  #sites th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: #276b80;
+    color: white;
+  }
+  
+  #row:hover{
+      /* background-color:red; */
+      color:white;
+  }
+  .modal {
+    position: fixed;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.25);
+  }
+  
+  .modal_content {
+    background-color: white;
+    position: absolute;
+    top: 20%;
+    left: 30%;
+    width: 40%;
+    padding: 20px;
+    border-radius: 5px;
+    border: 2px solid black;
+  }
+  
+  .close {
+    color: Black;
+    float: right;
+  }
+  
+  .close:hover {
+    color: cyan;
+    cursor: pointer;
+  }
