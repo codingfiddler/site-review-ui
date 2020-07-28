@@ -17,53 +17,14 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import TextField from "@material-ui/core/TextField";
 import { withRouter } from "react-router-dom";
+import pagesData from "./pagesData";
+import { NavLink, Link, useHistory } from "react-router-dom";
+import history from "./history.js";
 
 const Pages = (props) => {
-  // State & data
-  const [favoritedPages, setFavoritedPages] = React.useState({
-    "/home": false,
-    "/projects": false,
-    "/experience": false,
-    "/teaching": false,
-    "/contact": false,
-  });
-  const data = {
-    "/home": {
-      page: "/home",
-      visitorCount: 100,
-      averageTimeOnPage: 5,
-      creationDate: "7/23/2020",
-      reviewerScore: "100%",
-    },
-    "/projects": {
-      page: "/projects",
-      visitorCount: 100,
-      averageTimeOnPage: 5,
-      creationDate: "7/23/2020",
-      reviewerScore: "100%",
-    },
-    "/experience": {
-      page: "/experience",
-      visitorCount: 100,
-      averageTimeOnPage: 5,
-      creationDate: "7/23/2020",
-      reviewerScore: "100%",
-    },
-    "/teaching": {
-      page: "/teaching",
-      visitorCount: 100,
-      averageTimeOnPage: 5,
-      creationDate: "7/23/2020",
-      reviewerScore: "100%",
-    },
-    "/contact": {
-      page: "/contact",
-      visitorCount: 100,
-      averageTimeOnPage: 5,
-      creationDate: "7/23/2020",
-      reviewerScore: "100%",
-    },
-  };
+  const [data, setData] = React.useState(pagesData);
+  console.log(history);
+
   const tableRows = Object.values(data).map((pageInfo) => (
     <TableRow>
       <TableCell>
@@ -78,7 +39,7 @@ const Pages = (props) => {
           </Box>
           <Box>
             <IconButton onClick={() => handleFavoritedPages(pageInfo.page)}>
-              {favoritedPages[pageInfo.page] ? (
+              {data[pageInfo.page].favorited ? (
                 <FavoriteIcon />
               ) : (
                 <FavoriteBorderIcon />
@@ -92,21 +53,19 @@ const Pages = (props) => {
       <TableCell>{pageInfo.creationDate}</TableCell>
       <TableCell>{pageInfo.reviewerScore}</TableCell>
       <TableCell>
-        <Button variant="contained" onClick={() => nextPath("/review")}>
-          Review Page
-        </Button>
+        <Link to={"/review" + pageInfo.page}>Review Page</Link>
       </TableCell>
     </TableRow>
   ));
 
   // Methods
   const handleFavoritedPages = (page) => {
-    const oldState = favoritedPages;
-    const newState = { ...oldState, [page]: !favoritedPages[page] };
-    setFavoritedPages(newState);
-  };
-  const nextPath = (path) => {
-    props.history.push(path);
+    let oldData = data;
+    let pageData = oldData[page];
+    let oldFavorited = pageData.favorited;
+    let newPageData = { ...pageData, favorited: !oldFavorited };
+    let newData = { ...oldData, [page]: newPageData };
+    setData(newData);
   };
 
   return (

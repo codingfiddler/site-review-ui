@@ -1,0 +1,42 @@
+{
+  "/home": {
+    "page": "/home",
+    "visitorCount": 100,
+    "averageTimeOnPage": 5,
+    "creationDate": "7/23/2020",
+    "reviewerScore": "100%",
+    "favorited": true
+  },
+  "/projects": {
+    "page": "/projects",
+    "visitorCount": 100,
+    "averageTimeOnPage": 5,
+    "creationDate": "7/23/2020",
+    "reviewerScore": "100%",
+    "favorited": true
+  },
+  "/experience": {
+    "page": "/experience",
+    "visitorCount": 100,
+    "averageTimeOnPage": 5,
+    "creationDate": "7/23/2020",
+    "reviewerScore": "100%",
+    "favorited": false
+  },
+  "/teaching": {
+    "page": "/teaching",
+    "visitorCount": 100,
+    "averageTimeOnPage": 5,
+    "creationDate": "7/23/2020",
+    "reviewerScore": "100%",
+    "favorited": false
+  },
+  "/contact": {
+    "page": "/contact",
+    "visitorCount": 100,
+    "averageTimeOnPage": 5,
+    "creationDate": "7/23/2020",
+    "reviewerScore": "100%",
+    "favorited": false
+  }
+}

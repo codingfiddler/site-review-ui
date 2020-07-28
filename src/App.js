@@ -8,6 +8,7 @@ import ReviewPageContent from "./pages/ReviewPageContent.jsx";
 import Welcome from "./components/Welcome.jsx";
 import Dashboard from "./components/Dashboard.jsx";
 import Pages from "./pages/Pages";
+import history from "./pages/history.js";
 
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
@@ -44,10 +45,10 @@ function App() {
           <Route path="/signin">
             <Signin />
           </Route>
-          <Route path="/review">
+          <Route path="/review" history={history}>
             <ReviewPageContent />
           </Route>
-          <Route path="/pages">
+          <Route path="/pages" history={history}>
             <Pages />
           </Route>
         </Switch>
