@@ -19,11 +19,9 @@ import TextField from "@material-ui/core/TextField";
 import { withRouter } from "react-router-dom";
 import pagesData from "./pagesData";
 import { NavLink, Link, useHistory } from "react-router-dom";
-import history from "./history.js";
 
 const Pages = (props) => {
   const [data, setData] = React.useState(pagesData);
-  console.log(history);
 
   const tableRows = Object.values(data).map((pageInfo) => (
     <TableRow>
@@ -74,13 +72,6 @@ const Pages = (props) => {
         <Typography variant="h3" gutterBottom>
           Pages of https://www.coolchristine.com
         </Typography>
-      </Box>
-      <Box padding="2.5% 0">
-        <TextField
-          label="Search for pages..."
-          type="search"
-          variant="outlined"
-        />
       </Box>
       <TableContainer>
         <Table>

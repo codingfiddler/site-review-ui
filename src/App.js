@@ -8,7 +8,6 @@ import ReviewPageContent from "./pages/ReviewPageContent.jsx";
 import Welcome from "./components/Welcome.jsx";
 import Dashboard from "./components/Dashboard.jsx";
 import Pages from "./pages/Pages";
-import history from "./pages/history.js";
 
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
@@ -45,10 +44,10 @@ function App() {
           <Route path="/signin">
             <Signin />
           </Route>
-          <Route path="/review" history={history}>
-            <ReviewPageContent />
+          <Route path="/review/:pageName" component={ReviewPageContent}>
+            {/* <ReviewPageContent /> */}
           </Route>
-          <Route path="/pages" history={history}>
+          <Route path="/pages">
             <Pages />
           </Route>
         </Switch>

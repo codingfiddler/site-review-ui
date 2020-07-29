@@ -61,16 +61,14 @@ const StyledRating = withStyles({
   },
 })(Rating);
 
-export default function ReviewPageContent() {
+export default function ReviewPageContent({ match }) {
   const classes = useStyles();
   const [openThread, setOpenThread] = React.useState({}); // React Hooks: set state without having to create classes for components
   // const [openThreadFor, setOpenThreadFor] = React.useState(""); // Remember which comment thread to set thread open for!
   const [newCommentThread, setNewCommentThread] = React.useState("");
   const [newComment, setNewComment] = React.useState({});
   const [allCommentThreads, setAllCommentThreads] = React.useState(
-    commentsData[
-      window.location.pathname.slice(7, window.location.pathname.length)
-    ].comments
+    commentsData[match.params.pageName].comments
   );
   const [rating, setRating] = React.useState(0);
   const [hover, setHover] = React.useState(-1);
@@ -131,6 +129,10 @@ export default function ReviewPageContent() {
     setAverageRating(totalRating / totalUsers);
     setTotalPerRating({ ...newTotalPerRating });
   }, [allCommentThreads]);
+
+  React.useEffect(() => {
+    console.log(match);
+  }, []);
 
   /**
    * Opens a comment thread for user to view comments in that thread
@@ -254,22 +256,14 @@ export default function ReviewPageContent() {
     setAllCommentThreads(newAllCommentThreads);
   };
 
-  console.log(window.location.pathname);
-  console.log(
-    window.location.pathname.slice(7, window.location.pathname.length)
-  );
-
   return (
     <div style={{ textAlign: "center", height: "80vh", padding: "0% 10% 50%" }}>
       <h1 style={{ padding: "0px 20px" }}>Review Page Content</h1>
+      <h2>{match.params.pageName}</h2>
       <PageSummary
         averageRating={averageRating}
         totalPerRating={totalPerRating}
-        totalViews={
-          commentsData[
-            window.location.pathname.slice(7, window.location.pathname.length)
-          ].totalViews
-        }
+        totalViews={commentsData[match.params.pageName].totalViews}
       />
       <NavLink
         style={{

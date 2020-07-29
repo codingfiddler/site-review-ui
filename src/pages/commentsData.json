@@ -1,11 +1,11 @@
 {
-  "/home": {
+  "home": {
     "comments": {
       "1": {
         "commentThreadId": "1",
         "userId": "christinealuo",
         "comment": "This is an awesome page!",
-        "rating": 5,
+        "rating": 0,
         "dateCommentCreated": "2020-01-01",
         "thread": {}
       },
@@ -36,13 +36,13 @@
     },
     "totalViews": 1500
   },
-  "/projects": {
+  "projects": {
     "comments": {
       "1": {
         "commentThreadId": "1",
         "userId": "christinealuo",
         "comment": "This is an awesome page!",
-        "rating": 5,
+        "rating": 1,
         "dateCommentCreated": "2020-01-01",
         "thread": {}
       },
@@ -73,13 +73,13 @@
     },
     "totalViews": 1500
   },
-  "/experience": {
+  "experience": {
     "comments": {
       "1": {
         "commentThreadId": "1",
         "userId": "christinealuo",
         "comment": "This is an awesome page!",
-        "rating": 5,
+        "rating": 2,
         "dateCommentCreated": "2020-01-01",
         "thread": {}
       },
@@ -110,13 +110,13 @@
     },
     "totalViews": 1500
   },
-  "/teaching": {
+  "teaching": {
     "comments": {
       "1": {
         "commentThreadId": "1",
         "userId": "christinealuo",
         "comment": "This is an awesome page!",
-        "rating": 5,
+        "rating": 3,
         "dateCommentCreated": "2020-01-01",
         "thread": {}
       },
@@ -147,13 +147,13 @@
     },
     "totalViews": 1500
   },
-  "/contact": {
+  "contact": {
     "comments": {
       "1": {
         "commentThreadId": "1",
         "userId": "christinealuo",
         "comment": "This is an awesome page!",
-        "rating": 5,
+        "rating": 4,
         "dateCommentCreated": "2020-01-01",
         "thread": {}
       },
