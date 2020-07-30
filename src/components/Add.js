@@ -26,7 +26,7 @@ export default class Add extends React.Component{
     return(
       <div style={{display:'inline'}}>
         <TextField
-          style={{ width: "100%", height}}
+          style={{ width: "50%", height}}
           id="input-with-icon-textfield"
 
           /* styles the label component */
