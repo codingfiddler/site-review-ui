@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component} from 'react'
 import "../styles/table.css";
 // import {Button} from "@material-ui/core";
 import Alert from '@material-ui/lab/Alert';
@@ -27,29 +27,54 @@ import TextField from "@material-ui/core/TextField";
 import { withRouter } from "react-router-dom";
 import InputLabel from '@material-ui/core/InputLabel';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import axios from 'axios';
 import {
    BrowserRouter as Router,
    Switch,
    Route,
    Link
  } from "react-router-dom";
- 
+//  const { useEffect, useState } = React
+/* useEffect(() => {
+  fetchsites();
+}) */
+
+
+  
+
+
 class SiteTable extends Component {
    constructor(props) {
       super(props) //since we are extending class Table so we have to use super in order to override Component class constructor
       this.state = { //state is by default an object
-         sites: [
+         /* sites: [
             { id: 10, url: 'terrifictim.com', cdate: new Date(2018, 11, 24).toString(), rev_score: '85%' },
             { id: 5, url: 'coolchristine.com', cdate: new Date(2018, 11, 5).toString(), rev_score: '91%' },
             { id: 3, url: 'dapperdarby.com', cdate: new Date(2004, 11, 11).toString(), rev_score: '89%' },
             { id: 4, url: 'tiffunny.com',cdate: new Date(2005, 11, 24).toString(), rev_score: '73%' }
-         ],
+         ], */
+         sites: [],
          seen: false,
          direction:1,
          
       }
       this.keyPress = this.keyPress.bind(this);
+      console.log(this.state.sites)
    }
+   componentDidMount(){
+    this.fetchsites()
+   }
+   fetchsites = async ()=>{
+    
+    try{
+    const response= await axios.get("https://api.sitereview.fiddlingphotographer.com/websites/")
+    this.setState({sites: response.data})
+    }
+    catch(e){
+        //add something for errors 
+    }
+
+  };
 
    keyPress(e){
       e.preventDefault();
@@ -91,7 +116,7 @@ class SiteTable extends Component {
          console.log("Add Row Value clicked")
       console.log(value)
       var curr = this.state.sites
-      let newobj = {id: 0, url: value, cdate: new Date().toString(), rev_score: '80%'}
+      let newobj = {id: 0, domain: value, cdate: new Date().toString(), rev_score: '80%'}
       
       curr.push(newobj)
       this.setState({
@@ -167,13 +192,13 @@ sorturl(value){
    console.log(this.state.direction)
    if(this.state.direction < 1) {   
    this.state.sites.sort((a, b) => {
-      return -(a.url).localeCompare(b.url);
+      return -(a.domain).localeCompare(b.domain);
     });
     elem.innerHTML = "URL👇";
    }
    else{
       this.state.sites.sort((a, b) => {
-         return (a.url).localeCompare(b.url)
+         return (a.domain).localeCompare(b.domain)
        });
       elem.innerHTML = "URL☝️";
    }
@@ -287,11 +312,11 @@ renderTableData() {
     }); */
 
     return this.state.sites.map((sites, index) => {
-      const { id, url, cdate, rev_score } = sites //destructuring
+      const { id, domain, cdate, rev_score } = sites //destructuring
        return (
           <tr key={id}>
              <td>{id}</td>
-             <td> {url}</td>
+             <td> {domain}</td>
              <td>{cdate}</td>
              <td>{rev_score}</td>
              <td><Button variant="contained" onClick={() => this.deleteRow.bind(this,id)()}>
