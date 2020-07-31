@@ -8,6 +8,7 @@ import {
 } from "@material-ui/core";
 import { Grid, Paper, Typography } from "@material-ui/core";
 import SiteTable from "./SiteTable.js"
+import Dropdown from 'react-bootstrap/Dropdown'
 
 
 export default class Dashboard extends Component{
@@ -35,9 +36,20 @@ export default class Dashboard extends Component{
                 style={{height:'70%'}}
             /> */}
         </div>
-        
+        <h1 id='title'>My Sites</h1>
           <SiteTable/>
-          
+          {/* <Dropdown>
+          <Dropdown.Toggle variant="success" id="dropdown-basic">
+            Dropdown Button
+          </Dropdown.Toggle>
+
+          <Dropdown.Menu>
+            <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+            <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+            <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown> */}
+ 
         </form>
         
         

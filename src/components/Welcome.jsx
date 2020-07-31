@@ -12,7 +12,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { colors } from '@material-ui/core';
-
+import Carousel from 'react-bootstrap/Carousel'
+// import CarouselPG from './CarouselPg.jsx'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -43,8 +44,10 @@ export default function Welcome() {
   const classes = useStyles();
 
   return (
+    
     <Container component="main" maxWidth="l" maxHeight= '100%'>
       <CssBaseline />
+
       <Box className = {classes.background}>
       <div className={classes.paper}>
         <div>
