@@ -60,7 +60,7 @@ export default function PageSummary({
                   fontWeight: "bold",
                 }}
               >
-                Average Rating: {averageRating}
+                Average Rating: {averageRating ? averageRating : 0}
               </div>
               {/* <StyledRating
                 name="customized-color"
@@ -82,7 +82,7 @@ export default function PageSummary({
                         fontWeight: "bold",
                       }}
                     >
-                      {totalPerRating[5]}
+                      {totalPerRating ? totalPerRating[5] : 0}
                     </div>
                     <StyledRating
                       name="customized-color"
@@ -103,7 +103,7 @@ export default function PageSummary({
                         fontWeight: "bold",
                       }}
                     >
-                      {totalPerRating[4]}
+                      {totalPerRating ? totalPerRating[4] : 0}
                     </div>
                     <StyledRating
                       name="customized-color"
@@ -124,7 +124,7 @@ export default function PageSummary({
                         fontWeight: "bold",
                       }}
                     >
-                      {totalPerRating[3]}
+                      {totalPerRating ? totalPerRating[3] : 0}
                     </div>
                     <StyledRating
                       name="customized-color"
@@ -145,7 +145,7 @@ export default function PageSummary({
                         fontWeight: "bold",
                       }}
                     >
-                      {totalPerRating[2]}
+                      {totalPerRating ? totalPerRating[2] : 0}
                     </div>
                     <StyledRating
                       name="customized-color"
@@ -166,7 +166,7 @@ export default function PageSummary({
                         fontWeight: "bold",
                       }}
                     >
-                      {totalPerRating[1]}
+                      {totalPerRating ? totalPerRating[1] : 0}
                     </div>
                     <StyledRating
                       name="customized-color"
@@ -187,7 +187,7 @@ export default function PageSummary({
                         fontWeight: "bold",
                       }}
                     >
-                      {totalPerRating[0]}
+                      {totalPerRating ? totalPerRating[0] : 0}
                     </div>
                     <StyledRating
                       name="customized-color"
@@ -275,7 +275,9 @@ export default function PageSummary({
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               <div style={{ fontWeight: "bold" }}>Page Metrics</div>
             </AccordionSummary>
-            <AccordionDetails>Total Views: {totalViews}</AccordionDetails>
+            <AccordionDetails>
+              Total Views: {totalViews ? totalViews : 0}
+            </AccordionDetails>
           </Accordion>
         </div>
       </div>

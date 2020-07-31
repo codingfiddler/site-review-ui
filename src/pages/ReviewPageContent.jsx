@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   List,
   ListItem,
@@ -21,6 +21,7 @@ import Box from "@material-ui/core/Box";
 import PageSummary from "./PageSummary";
 import christine from "./christine.jpg";
 import { NavLink } from "react-router-dom";
+import axios from "axios";
 
 // TODO: Tags? Checklist?
 // TODO: Filter by tags?
@@ -67,12 +68,10 @@ export default function ReviewPageContent({ match }) {
   // const [openThreadFor, setOpenThreadFor] = React.useState(""); // Remember which comment thread to set thread open for!
   const [newCommentThread, setNewCommentThread] = React.useState("");
   const [newComment, setNewComment] = React.useState({});
-  const [allCommentThreads, setAllCommentThreads] = React.useState(
-    commentsData[match.params.pageName].comments
-  );
+  const [allCommentThreads, setAllCommentThreads] = React.useState([]);
   const [rating, setRating] = React.useState(0);
   const [hover, setHover] = React.useState(-1);
-  const currentUserId = "christinealuo"; // You can only delete comments made by the current user
+  const currentUserId = 1; // You can only delete comments made by the current user
   const [averageRating, setAverageRating] = React.useState(0);
   const [totalPerRating, setTotalPerRating] = React.useState({
     5: 0,
@@ -82,9 +81,12 @@ export default function ReviewPageContent({ match }) {
     1: 0,
     0: 0,
   });
+  const [response, setResponse] = React.useState([]);
 
   // First time aggregating ratings
-  React.useEffect(() => {
+  useEffect(() => {
+    console.log("useEffect");
+    fetchComments();
     let totalRating = 0;
     let totalUsers = 0;
     let newTotalPerRating = {
@@ -95,20 +97,63 @@ export default function ReviewPageContent({ match }) {
       1: 0,
       0: 0,
     };
-    Object.values(allCommentThreads).map((commentThread) => {
+    allCommentThreads.map((commentThread) => {
       // console.log(commentThread);
       totalRating += commentThread.rating;
       totalUsers += 1;
       newTotalPerRating[commentThread.rating] =
         newTotalPerRating[commentThread.rating] + 1;
     });
-    console.log(newTotalPerRating);
     setAverageRating(totalRating / totalUsers);
     setTotalPerRating({ ...newTotalPerRating });
   }, []);
 
+  const fetchComments = async () => {
+    console.log("fetchComments");
+    const response = await axios.get(
+      "https://api.sitereview.fiddlingphotographer.com/pages/"
+    );
+    console.log("RESPONSE");
+    console.log(response);
+    setResponse(response);
+    const myPageInfo = response.data.filter(
+      (pageInfo) =>
+        pageInfo.pageURL === decodeURIComponent(match.params.pageUrl)
+    )[0];
+    if (myPageInfo) {
+      const arrayOfComments = myPageInfo.comments;
+      console.log(arrayOfComments);
+      setAllCommentThreads(arrayOfComments);
+    }
+  };
+
+  const pushComments = async () => {
+    console.log("pushComments");
+    if (response && response.data) {
+      const updatedPageInfo = response.data.filter(
+        (pageInfo) =>
+          pageInfo.pageURL === decodeURIComponent(match.params.pageUrl)
+      )[0];
+      updatedPageInfo.comments = [...allCommentThreads]; // Updated page object
+      console.log("UPDATED PAGE INFO");
+      console.log(updatedPageInfo);
+      await axios
+        .post("https://api.sitereview.fiddlingphotographer.com/pages/", {
+          ...updatedPageInfo,
+          comments: [...updatedPageInfo.comments],
+        })
+        .then(function (res) {
+          console.log("POST RESPONSE DATA");
+          console.log(res.data);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+  };
+
   // Anytime a new comment is added
-  React.useEffect(() => {
+  useEffect(() => {
     let totalRating = 0;
     let totalUsers = 0;
     let newTotalPerRating = {
@@ -119,20 +164,19 @@ export default function ReviewPageContent({ match }) {
       1: 0,
       0: 0,
     };
-    Object.values(allCommentThreads).map((commentThread) => {
+    allCommentThreads.map((commentThread) => {
       totalRating += commentThread.rating;
       totalUsers += 1;
       newTotalPerRating[commentThread.rating] =
         newTotalPerRating[commentThread.rating] + 1;
     });
-    console.log(newTotalPerRating);
     setAverageRating(totalRating / totalUsers);
     setTotalPerRating({ ...newTotalPerRating });
+    // Push when data is ready
+    if (allCommentThreads) {
+      pushComments();
+    }
   }, [allCommentThreads]);
-
-  React.useEffect(() => {
-    console.log(match);
-  }, []);
 
   /**
    * Opens a comment thread for user to view comments in that thread
@@ -158,7 +202,7 @@ export default function ReviewPageContent({ match }) {
     }
     // 1. Create new comment (not a comment thread)
     const newCommentObject = {
-      userId: "christinealuo",
+      userId: 1,
       commentId: parseInt(Math.random() * 1000).toString(), // To keep things consistent, all ids are strings!
       comment: comment,
       date: "2020-07-07",
@@ -168,17 +212,42 @@ export default function ReviewPageContent({ match }) {
     // 1. Comment thread (object, identified by threadId)
     // 2. Thread (list)
     // 3. Comment (object, identified by commentId)
-    const currentCommentThread = allCommentThreads[commentThreadId];
+    const currentCommentThread = allCommentThreads.filter((commentThread) => {
+      // console.log("COMMENT THREAD");
+      // console.log(commentThread);
+      // console.log("COMMENT THREAD ID");
+      // console.log(commentThreadId);
+      // console.log(parseInt("728") === 728);
+      // console.log(parseInt(commentThread.commentThreadId));
+      // console.log(parseInt(commentThreadId));
+      // console.log(
+      //   parseInt(commentThread.commentThreadId) === parseInt(commentThreadId)
+      // );
+      return (
+        parseInt(commentThread.commentThreadId) === parseInt(commentThreadId)
+      );
+    })[0];
+    // console.log(allCommentThreads);
+    // console.log(currentCommentThread);
+    // console.log(commentThreadId);
     const currentThread = currentCommentThread.thread;
     const newThread = {
       ...currentThread,
       [newCommentObject.commentId]: newCommentObject,
     };
     const newCommentThread = { ...currentCommentThread, thread: newThread };
-    setAllCommentThreads({
-      ...allCommentThreads,
-      [commentThreadId]: newCommentThread,
-    });
+    // console.log(newCommentThread);
+    setAllCommentThreads(
+      allCommentThreads.map((commentThread) => {
+        if (
+          parseInt(commentThread.commentThreadId) === parseInt(commentThreadId)
+        ) {
+          return newCommentThread;
+        } else {
+          return commentThread;
+        }
+      })
+    );
     setNewComment({ ...newComment, [commentThreadId]: "" });
   };
 
@@ -196,7 +265,7 @@ export default function ReviewPageContent({ match }) {
       return;
     }
     const newCommentThreadObject = {
-      userId: "christinealuo", // Default for now, once we add the backend we will have to change this to the currently authorized user
+      userId: 1, // Default for now, once we add the backend we will have to change this to the currently authorized user
       comment: newCommentThread,
       rating: rating, // Default for now
       date: "2020-07-07",
@@ -204,16 +273,13 @@ export default function ReviewPageContent({ match }) {
       commentThreadId: parseInt(Math.random() * 1000).toString(),
       openThread: false,
     };
-    setAllCommentThreads({
-      ...allCommentThreads,
-      [newCommentThreadObject.commentThreadId]: newCommentThreadObject,
-    });
+    setAllCommentThreads([...allCommentThreads, newCommentThreadObject]);
     setNewCommentThread("");
     setRating(0);
     let totalRating = 0;
     let totalUsers = 0;
     let newTotalPerRating = { ...totalPerRating };
-    Object.values(allCommentThreads).map((commentThread) => {
+    allCommentThreads.map((commentThread) => {
       totalRating += commentThread.rating;
       totalUsers += 1;
       newTotalPerRating[commentThread.rating] =
@@ -225,12 +291,12 @@ export default function ReviewPageContent({ match }) {
 
   // TODO: Add JSDoc comment
   const handleDeleteCommentThread = (deleteThisCommentThreadId) => {
-    const keepTheseCommentThreads = {};
-    for (const commentThreadId in allCommentThreads) {
+    const keepTheseCommentThreads = [];
+    for (const commentThread in allCommentThreads) {
       // for...in loops through the keys (not values)
+      const commentThreadId = commentThread.commentThreadId;
       if (commentThreadId !== deleteThisCommentThreadId) {
-        keepTheseCommentThreads[commentThreadId] =
-          allCommentThreads[commentThreadId];
+        keepTheseCommentThreads.push(commentThread);
       }
     }
     setAllCommentThreads(keepTheseCommentThreads);
@@ -239,7 +305,9 @@ export default function ReviewPageContent({ match }) {
   // TODO: Add JSDoc comment
   const handleDeleteComment = (commentThreadId, deleteThisCommentId) => {
     const keepTheseComments = {};
-    const currentCommentThread = allCommentThreads[commentThreadId];
+    const currentCommentThread = allCommentThreads.filter(
+      (commentThread) => commentThread.commentThreadId === commentThreadId
+    )[0];
     for (const commentId in currentCommentThread.thread) {
       if (commentId !== deleteThisCommentId) {
         keepTheseComments[commentId] = currentCommentThread.thread[commentId];
@@ -249,13 +317,15 @@ export default function ReviewPageContent({ match }) {
       ...currentCommentThread,
       thread: keepTheseComments,
     };
-    const newAllCommentThreads = {
+    const newAllCommentThreads = [
       ...allCommentThreads,
-      [commentThreadId]: newCurrentCommentThread,
-    };
+      newCurrentCommentThread,
+    ];
     setAllCommentThreads(newAllCommentThreads);
   };
-
+  console.log("ReviewPageContent");
+  console.log(match.params);
+  console.log(decodeURIComponent(match.params.pageUrl));
   return (
     <div style={{ textAlign: "center", height: "80vh", padding: "0% 10% 50%" }}>
       <h1 style={{ padding: "0px 20px" }}>Review Page Content</h1>
@@ -263,7 +333,11 @@ export default function ReviewPageContent({ match }) {
       <PageSummary
         averageRating={averageRating}
         totalPerRating={totalPerRating}
-        totalViews={commentsData[match.params.pageName].totalViews}
+        totalViews={
+          commentsData[match.params.pageName]
+            ? commentsData[match.params.pageName].totalViews
+            : 0
+        }
       />
       <NavLink
         style={{
@@ -281,7 +355,7 @@ export default function ReviewPageContent({ match }) {
       </NavLink>
       <h2 style={{ textAlign: "left" }}>Your Page</h2>
       <iframe
-        src="https://labs.codeday.org/schedule"
+        src={decodeURIComponent(match.params.pageUrl)}
         width="100%"
         height="85%"
         frameborder="0"
@@ -295,13 +369,13 @@ export default function ReviewPageContent({ match }) {
         </p>
       </iframe>
       <List>
-        {Object.values(allCommentThreads).map((commentThread) => {
+        {allCommentThreads.map((commentThread) => {
           let collapseComponentListItems = Object.values(
             commentThread.thread
           ).map((comment) => (
             <ListItem className={classes.nested}>
               <ListItemAvatar>
-                <Avatar alt="Christine Luo" src={christine} />
+                <Avatar />
               </ListItemAvatar>
               <ListItemText
                 primary={comment.comment}
@@ -327,7 +401,7 @@ export default function ReviewPageContent({ match }) {
                 onClick={(e) => handleOpenThread(commentThread.commentThreadId)}
               >
                 <ListItemAvatar>
-                  <Avatar alt="Christine Luo" src={christine} />
+                  <Avatar />
                 </ListItemAvatar>
                 <ListItemText
                   primary={commentThread.comment}
@@ -336,7 +410,11 @@ export default function ReviewPageContent({ match }) {
                 <StyledRating
                   name="customized-color"
                   defaultValue={parseInt(
-                    allCommentThreads[commentThread.commentThreadId].rating
+                    allCommentThreads.filter(
+                      (currentCommentThread) =>
+                        currentCommentThread.commentThreadId ===
+                        commentThread.commentThreadId
+                    )[0].rating
                   )}
                   precision={0.5}
                   icon={<FavoriteIcon fontSize="inherit" />}

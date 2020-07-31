@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
@@ -19,58 +19,94 @@ import TextField from "@material-ui/core/TextField";
 import { withRouter } from "react-router-dom";
 import pagesData from "./pagesData";
 import { NavLink, Link, useHistory } from "react-router-dom";
+import axios from "axios";
 
 const Pages = (props) => {
-  const [data, setData] = React.useState(pagesData);
+  const [data, setData] = React.useState([]);
 
-  const tableRows = Object.values(data).map((pageInfo) => (
-    <TableRow>
-      <TableCell>
-        <Box display="flex" justifyContent="space-between">
-          <Box
-            fontFamily="Monospace"
-            fontSize="16px"
-            display="flex"
-            alignItems="center"
+  useEffect(() => {
+    fetchPages();
+  }, []);
+
+  const fetchPages = async () => {
+    const response = await axios.get(
+      "https://api.sitereview.fiddlingphotographer.com/pages/"
+    );
+    console.log(response);
+    console.log(response.data);
+    setData(response.data);
+  };
+
+  const tableRows = data.map((pageInfo) => {
+    const regex = RegExp("/", "g");
+    const searchIn = pageInfo.pageURL;
+    let match,
+      matches = [];
+    while ((match = regex.exec(searchIn)) != null) {
+      matches.push(match.index);
+    }
+    // console.log(`Matches: ${matches}`);
+    // console.log(searchIn.slice(matches[matches.length - 1]));
+    const pageName = searchIn.slice(matches[matches.length - 1]);
+    return (
+      <TableRow>
+        <TableCell>
+          <Box display="flex" justifyContent="space-between">
+            <Box
+              fontFamily="Monospace"
+              fontSize="16px"
+              display="flex"
+              alignItems="center"
+            >
+              {pageInfo.pageURL}
+            </Box>
+            <Box>
+              <IconButton onClick={() => handleFavoritedPages(pageInfo.page)}>
+                {data[pageInfo.page] && data[pageInfo.page].favorited ? (
+                  <FavoriteIcon />
+                ) : (
+                  <FavoriteBorderIcon />
+                )}
+              </IconButton>
+            </Box>
+          </Box>
+        </TableCell>
+        <TableCell>{pageInfo.visitorCount}</TableCell>
+        <TableCell>{pageInfo.timeOnPage + " minutes"}</TableCell>
+        <TableCell>{pageInfo.creationDate}</TableCell>
+        <TableCell>{pageInfo.reviewerScore}</TableCell>
+        <TableCell>
+          <Link
+            to={
+              "/review" +
+              pageName +
+              "/" +
+              encodeURIComponent(pageInfo.pageURL) +
+              ""
+            }
           >
-            {pageInfo.page}
-          </Box>
-          <Box>
-            <IconButton onClick={() => handleFavoritedPages(pageInfo.page)}>
-              {data[pageInfo.page].favorited ? (
-                <FavoriteIcon />
-              ) : (
-                <FavoriteBorderIcon />
-              )}
-            </IconButton>
-          </Box>
-        </Box>
-      </TableCell>
-      <TableCell>{pageInfo.visitorCount}</TableCell>
-      <TableCell>{pageInfo.averageTimeOnPage + " minutes"}</TableCell>
-      <TableCell>{pageInfo.creationDate}</TableCell>
-      <TableCell>{pageInfo.reviewerScore}</TableCell>
-      <TableCell>
-        <Link to={"/review" + pageInfo.page}>Review Page</Link>
-      </TableCell>
-    </TableRow>
-  ));
+            Review Page
+          </Link>
+        </TableCell>
+      </TableRow>
+    );
+  });
 
   // Methods
   const handleFavoritedPages = (page) => {
-    let oldData = data;
-    let pageData = oldData[page];
-    let oldFavorited = pageData.favorited;
-    let newPageData = { ...pageData, favorited: !oldFavorited };
-    let newData = { ...oldData, [page]: newPageData };
-    setData(newData);
+    // let oldData = data;
+    // let pageData = oldData[page];
+    // let oldFavorited = pageData.favorited;
+    // let newPageData = { ...pageData, favorited: !oldFavorited };
+    // let newData = { ...oldData, [page]: newPageData };
+    // setData(newData);
   };
 
   return (
     <Container>
       <Box clone fontWeight="fontWeightBold" textAlign="center">
         <Typography variant="h3" gutterBottom>
-          Pages of https://www.coolchristine.com
+          Pages of {data && data[0] ? data[0].pageURL : ""}
         </Typography>
       </Box>
       <TableContainer>
