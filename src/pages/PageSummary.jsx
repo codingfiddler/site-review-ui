@@ -12,8 +12,7 @@ import { Rating } from "@material-ui/lab";
 import Grid from "@material-ui/core/Grid";
 import Avatar from "@material-ui/core/Avatar";
 import christine from "./christine.jpg";
-
-// TODO: Accordion to see details?
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles({
   root: {
@@ -35,7 +34,11 @@ const StyledRating = withStyles({
   },
 })(Rating);
 
-export default function PageSummary({ averageRating, totalPerRating }) {
+export default function PageSummary({
+  averageRating,
+  totalPerRating,
+  totalViews,
+}) {
   const classes = useStyles();
 
   return (
@@ -57,7 +60,7 @@ export default function PageSummary({ averageRating, totalPerRating }) {
                   fontWeight: "bold",
                 }}
               >
-                Average Rating: {averageRating}
+                Average Rating: {averageRating ? averageRating : 0}
               </div>
               {/* <StyledRating
                 name="customized-color"
@@ -79,7 +82,7 @@ export default function PageSummary({ averageRating, totalPerRating }) {
                         fontWeight: "bold",
                       }}
                     >
-                      {totalPerRating[5]}
+                      {totalPerRating ? totalPerRating[5] : 0}
                     </div>
                     <StyledRating
                       name="customized-color"
@@ -100,7 +103,7 @@ export default function PageSummary({ averageRating, totalPerRating }) {
                         fontWeight: "bold",
                       }}
                     >
-                      {totalPerRating[4]}
+                      {totalPerRating ? totalPerRating[4] : 0}
                     </div>
                     <StyledRating
                       name="customized-color"
@@ -121,7 +124,7 @@ export default function PageSummary({ averageRating, totalPerRating }) {
                         fontWeight: "bold",
                       }}
                     >
-                      {totalPerRating[3]}
+                      {totalPerRating ? totalPerRating[3] : 0}
                     </div>
                     <StyledRating
                       name="customized-color"
@@ -142,7 +145,7 @@ export default function PageSummary({ averageRating, totalPerRating }) {
                         fontWeight: "bold",
                       }}
                     >
-                      {totalPerRating[2]}
+                      {totalPerRating ? totalPerRating[2] : 0}
                     </div>
                     <StyledRating
                       name="customized-color"
@@ -163,12 +166,33 @@ export default function PageSummary({ averageRating, totalPerRating }) {
                         fontWeight: "bold",
                       }}
                     >
-                      {totalPerRating[1]}
+                      {totalPerRating ? totalPerRating[1] : 0}
                     </div>
                     <StyledRating
                       name="customized-color"
                       precision={1}
                       value={1}
+                      icon={<FavoriteIcon fontSize="inherit" />}
+                      style={{ margin: "10px" }}
+                      readOnly={true}
+                    />
+                  </div>
+                </Grid>
+                <Grid item xs={12}>
+                  <div style={{ display: "flex", justifyContent: "center" }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {totalPerRating ? totalPerRating[0] : 0}
+                    </div>
+                    <StyledRating
+                      name="customized-color"
+                      precision={1}
+                      value={0}
                       icon={<FavoriteIcon fontSize="inherit" />}
                       style={{ margin: "10px" }}
                       readOnly={true}
@@ -251,7 +275,9 @@ export default function PageSummary({ averageRating, totalPerRating }) {
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               <div style={{ fontWeight: "bold" }}>Page Metrics</div>
             </AccordionSummary>
-            <AccordionDetails>Total Views: 100</AccordionDetails>
+            <AccordionDetails>
+              Total Views: {totalViews ? totalViews : 0}
+            </AccordionDetails>
           </Accordion>
         </div>
       </div>

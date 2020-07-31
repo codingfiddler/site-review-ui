@@ -44,9 +44,11 @@ function App() {
           <Route path="/signin">
             <Signin />
           </Route>
-          <Route path="/review">
-            <ReviewPageContent />
-          </Route>
+          <Route exact path="/review/" component={ReviewPageContent}></Route>
+          <Route
+            path="/review/:pageName/:pageUrl"
+            component={ReviewPageContent}
+          ></Route>
           <Route path="/pages">
             <Pages />
           </Route>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
@@ -17,111 +17,97 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import TextField from "@material-ui/core/TextField";
 import { withRouter } from "react-router-dom";
+import pagesData from "./pagesData";
+import { NavLink, Link, useHistory } from "react-router-dom";
+import axios from "axios";
 
 const Pages = (props) => {
-  // State & data
-  const [favoritedPages, setFavoritedPages] = React.useState({
-    "/home": false,
-    "/projects": false,
-    "/experience": false,
-    "/teaching": false,
-    "/contact": false,
-  });
-  const data = {
-    "/home": {
-      page: "/home",
-      visitorCount: 100,
-      averageTimeOnPage: 5,
-      creationDate: "7/23/2020",
-      reviewerScore: "100%",
-    },
-    "/projects": {
-      page: "/projects",
-      visitorCount: 100,
-      averageTimeOnPage: 5,
-      creationDate: "7/23/2020",
-      reviewerScore: "100%",
-    },
-    "/experience": {
-      page: "/experience",
-      visitorCount: 100,
-      averageTimeOnPage: 5,
-      creationDate: "7/23/2020",
-      reviewerScore: "100%",
-    },
-    "/teaching": {
-      page: "/teaching",
-      visitorCount: 100,
-      averageTimeOnPage: 5,
-      creationDate: "7/23/2020",
-      reviewerScore: "100%",
-    },
-    "/contact": {
-      page: "/contact",
-      visitorCount: 100,
-      averageTimeOnPage: 5,
-      creationDate: "7/23/2020",
-      reviewerScore: "100%",
-    },
+  const [data, setData] = React.useState([]);
+
+  useEffect(() => {
+    fetchPages();
+  }, []);
+
+  const fetchPages = async () => {
+    const response = await axios.get(
+      "https://api.sitereview.fiddlingphotographer.com/pages/"
+    );
+    console.log(response);
+    console.log(response.data);
+    setData(response.data);
   };
-  const tableRows = Object.values(data).map((pageInfo) => (
-    <TableRow>
-      <TableCell>
-        <Box display="flex" justifyContent="space-between">
-          <Box
-            fontFamily="Monospace"
-            fontSize="16px"
-            display="flex"
-            alignItems="center"
+
+  const tableRows = data.map((pageInfo) => {
+    const regex = RegExp("/", "g");
+    const searchIn = pageInfo.pageURL;
+    let match,
+      matches = [];
+    while ((match = regex.exec(searchIn)) != null) {
+      matches.push(match.index);
+    }
+    // console.log(`Matches: ${matches}`);
+    // console.log(searchIn.slice(matches[matches.length - 1]));
+    const pageName = searchIn.slice(matches[matches.length - 1]);
+    return (
+      <TableRow>
+        <TableCell>
+          <Box display="flex" justifyContent="space-between">
+            <Box
+              fontFamily="Monospace"
+              fontSize="16px"
+              display="flex"
+              alignItems="center"
+            >
+              {pageInfo.pageURL}
+            </Box>
+            <Box>
+              <IconButton onClick={() => handleFavoritedPages(pageInfo.page)}>
+                {data[pageInfo.page] && data[pageInfo.page].favorited ? (
+                  <FavoriteIcon />
+                ) : (
+                  <FavoriteBorderIcon />
+                )}
+              </IconButton>
+            </Box>
+          </Box>
+        </TableCell>
+        <TableCell>{pageInfo.visitorCount}</TableCell>
+        <TableCell>{pageInfo.timeOnPage + " minutes"}</TableCell>
+        <TableCell>{pageInfo.creationDate}</TableCell>
+        <TableCell>{pageInfo.reviewerScore}</TableCell>
+        <TableCell>
+          <Link
+            to={
+              "/review" +
+              pageName +
+              "/" +
+              encodeURIComponent(pageInfo.pageURL) +
+              ""
+            }
           >
-            {pageInfo.page}
-          </Box>
-          <Box>
-            <IconButton onClick={() => handleFavoritedPages(pageInfo.page)}>
-              {favoritedPages[pageInfo.page] ? (
-                <FavoriteIcon />
-              ) : (
-                <FavoriteBorderIcon />
-              )}
-            </IconButton>
-          </Box>
-        </Box>
-      </TableCell>
-      <TableCell>{pageInfo.visitorCount}</TableCell>
-      <TableCell>{pageInfo.averageTimeOnPage + " minutes"}</TableCell>
-      <TableCell>{pageInfo.creationDate}</TableCell>
-      <TableCell>{pageInfo.reviewerScore}</TableCell>
-      <TableCell>
-        <Button variant="contained" onClick={() => nextPath("/review")}>
-          Review Page
-        </Button>
-      </TableCell>
-    </TableRow>
-  ));
+            Review Page
+          </Link>
+        </TableCell>
+      </TableRow>
+    );
+  });
 
   // Methods
   const handleFavoritedPages = (page) => {
-    const oldState = favoritedPages;
-    const newState = { ...oldState, [page]: !favoritedPages[page] };
-    setFavoritedPages(newState);
-  };
-  const nextPath = (path) => {
-    props.history.push(path);
+    // let oldData = data;
+    // let pageData = oldData[page];
+    // let oldFavorited = pageData.favorited;
+    // let newPageData = { ...pageData, favorited: !oldFavorited };
+    // let newData = { ...oldData, [page]: newPageData };
+    // setData(newData);
   };
 
   return (
     <Container>
       <Box clone fontWeight="fontWeightBold" textAlign="center">
         <Typography variant="h3" gutterBottom>
-          Pages of https://www.coolchristine.com
+          Pages of {data && data[0] ? data[0].pageURL : ""}
         </Typography>
-      </Box>
-      <Box padding="2.5% 0">
-        <TextField
-          label="Search for pages..."
-          type="search"
-          variant="outlined"
-        />
       </Box>
       <TableContainer>
         <Table>

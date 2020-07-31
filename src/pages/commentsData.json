@@ -1,38 +1,187 @@
 {
-    "page1": {
-        "comments": {
-            "1": {
-                "commentThreadId": "1",
-                "userId": "christinealuo",
-                "comment": "This is an awesome page!",
-                "rating": 5,
-                "dateCommentCreated": "2020-01-01",
-                "thread": {}
-            },
-            "2": {
-                "commentThreadId": "2",
-                "userId": "helloworld",
-                "comment": "Maybe change the layout of this page?",
-                "rating": 3,
-                "dateCommentCreated": "2020-02-02",
-                "thread": {}
-            },
-            "3": {
-                "commentThreadId": "3",
-                "userId": "worldhello",
-                "comment": "It would be nice to have contact information on this page",
-                "rating": 4,
-                "dateCommentCreated": "2020-03-03",
-                "thread": {}
-            },
-            "4": {
-                "commentThreadId": "4",
-                "userId": "christinealuo",
-                "comment": "Christine here again. These comments are awesome!",
-                "rating": 5,
-                "dateCommentCreated": "2020-04-04",
-                "thread": {}
-            }
-        }
-    }
+  "home": {
+    "comments": {
+      "1": {
+        "commentThreadId": "1",
+        "userId": "christinealuo",
+        "comment": "This is an awesome page!",
+        "rating": 0,
+        "dateCommentCreated": "2020-01-01",
+        "thread": {}
+      },
+      "2": {
+        "commentThreadId": "2",
+        "userId": "helloworld",
+        "comment": "Maybe change the layout of this page?",
+        "rating": 3,
+        "dateCommentCreated": "2020-02-02",
+        "thread": {}
+      },
+      "3": {
+        "commentThreadId": "3",
+        "userId": "worldhello",
+        "comment": "It would be nice to have contact information on this page",
+        "rating": 4,
+        "dateCommentCreated": "2020-03-03",
+        "thread": {}
+      },
+      "4": {
+        "commentThreadId": "4",
+        "userId": "christinealuo",
+        "comment": "Christine here again. These comments are awesome!",
+        "rating": 5,
+        "dateCommentCreated": "2020-04-04",
+        "thread": {}
+      }
+    },
+    "totalViews": 1500
+  },
+  "projects": {
+    "comments": {
+      "1": {
+        "commentThreadId": "1",
+        "userId": "christinealuo",
+        "comment": "This is an awesome page!",
+        "rating": 1,
+        "dateCommentCreated": "2020-01-01",
+        "thread": {}
+      },
+      "2": {
+        "commentThreadId": "2",
+        "userId": "helloworld",
+        "comment": "Maybe change the layout of this page?",
+        "rating": 3,
+        "dateCommentCreated": "2020-02-02",
+        "thread": {}
+      },
+      "3": {
+        "commentThreadId": "3",
+        "userId": "worldhello",
+        "comment": "It would be nice to have contact information on this page",
+        "rating": 4,
+        "dateCommentCreated": "2020-03-03",
+        "thread": {}
+      },
+      "4": {
+        "commentThreadId": "4",
+        "userId": "christinealuo",
+        "comment": "Christine here again. These comments are awesome!",
+        "rating": 5,
+        "dateCommentCreated": "2020-04-04",
+        "thread": {}
+      }
+    },
+    "totalViews": 1500
+  },
+  "experience": {
+    "comments": {
+      "1": {
+        "commentThreadId": "1",
+        "userId": "christinealuo",
+        "comment": "This is an awesome page!",
+        "rating": 2,
+        "dateCommentCreated": "2020-01-01",
+        "thread": {}
+      },
+      "2": {
+        "commentThreadId": "2",
+        "userId": "helloworld",
+        "comment": "Maybe change the layout of this page?",
+        "rating": 3,
+        "dateCommentCreated": "2020-02-02",
+        "thread": {}
+      },
+      "3": {
+        "commentThreadId": "3",
+        "userId": "worldhello",
+        "comment": "It would be nice to have contact information on this page",
+        "rating": 4,
+        "dateCommentCreated": "2020-03-03",
+        "thread": {}
+      },
+      "4": {
+        "commentThreadId": "4",
+        "userId": "christinealuo",
+        "comment": "Christine here again. These comments are awesome!",
+        "rating": 5,
+        "dateCommentCreated": "2020-04-04",
+        "thread": {}
+      }
+    },
+    "totalViews": 1500
+  },
+  "teaching": {
+    "comments": {
+      "1": {
+        "commentThreadId": "1",
+        "userId": "christinealuo",
+        "comment": "This is an awesome page!",
+        "rating": 3,
+        "dateCommentCreated": "2020-01-01",
+        "thread": {}
+      },
+      "2": {
+        "commentThreadId": "2",
+        "userId": "helloworld",
+        "comment": "Maybe change the layout of this page?",
+        "rating": 3,
+        "dateCommentCreated": "2020-02-02",
+        "thread": {}
+      },
+      "3": {
+        "commentThreadId": "3",
+        "userId": "worldhello",
+        "comment": "It would be nice to have contact information on this page",
+        "rating": 4,
+        "dateCommentCreated": "2020-03-03",
+        "thread": {}
+      },
+      "4": {
+        "commentThreadId": "4",
+        "userId": "christinealuo",
+        "comment": "Christine here again. These comments are awesome!",
+        "rating": 5,
+        "dateCommentCreated": "2020-04-04",
+        "thread": {}
+      }
+    },
+    "totalViews": 1500
+  },
+  "contact": {
+    "comments": {
+      "1": {
+        "commentThreadId": "1",
+        "userId": "christinealuo",
+        "comment": "This is an awesome page!",
+        "rating": 4,
+        "dateCommentCreated": "2020-01-01",
+        "thread": {}
+      },
+      "2": {
+        "commentThreadId": "2",
+        "userId": "helloworld",
+        "comment": "Maybe change the layout of this page?",
+        "rating": 3,
+        "dateCommentCreated": "2020-02-02",
+        "thread": {}
+      },
+      "3": {
+        "commentThreadId": "3",
+        "userId": "worldhello",
+        "comment": "It would be nice to have contact information on this page",
+        "rating": 4,
+        "dateCommentCreated": "2020-03-03",
+        "thread": {}
+      },
+      "4": {
+        "commentThreadId": "4",
+        "userId": "christinealuo",
+        "comment": "Christine here again. These comments are awesome!",
+        "rating": 5,
+        "dateCommentCreated": "2020-04-04",
+        "thread": {}
+      }
+    },
+    "totalViews": 1500
+  }
 }
