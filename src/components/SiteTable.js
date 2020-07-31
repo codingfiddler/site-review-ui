@@ -59,22 +59,56 @@ class SiteTable extends Component {
          
       }
       this.keyPress = this.keyPress.bind(this);
-      console.log(this.state.sites)
+
    }
    componentDidMount(){
     this.fetchsites()
+    this.sendsites()
    }
    fetchsites = async ()=>{
-    
+    console.log("Fetch Sites called")
     try{
     const response= await axios.get("https://api.sitereview.fiddlingphotographer.com/websites/")
     this.setState({sites: response.data})
+    this.populateValues()
     }
     catch(e){
         //add something for errors 
     }
 
   };
+  sendsites = async (new_site_data)=>{
+    console.log("Send Sites called")
+    try{
+    const old = await axios.get("https://api.sitereview.fiddlingphotographer.com/websites/")
+    var difference = this.state.sites.length - old.data.length  
+    var added = this.state.sites.slice(old.data.length)
+    console.log(difference)
+    console.log(added)
+    const response= await axios.post("https://api.sitereview.fiddlingphotographer.com/websites/", this.state.sites)
+      this.setState({sites: [...this.state.sites, response.data]})
+    /* for (var i =0 ; i< this.state.sites.length;i++){
+      
+      const response= await axios.post("https://api.sitereview.fiddlingphotographer.com/websites/", this.state.sites[i])
+      this.setState({sites: [...this.state.sites, response.data]})
+    } */
+        }
+    catch(e){
+        //add something for errors 
+    }
+
+  };
+  populateValues(){
+    //console.log("Populating")
+    //console.log(this.state.sites)
+    var values = this.state.sites
+    for (var i =0; i<values.length;i++){
+      values[i]['cdate'] = "09/21/2012"
+      values[i]['rev_score'] = Math.floor(Math.random() * Math.floor(100)) + "%"
+      //console.log(values[i])
+    }
+    this.setState({sites: values})
+  }
 
    keyPress(e){
       e.preventDefault();
@@ -99,7 +133,7 @@ class SiteTable extends Component {
 
    }
    addRow(value){
-      console.log(value.length)
+      //console.log(value.length)
       if (value =="" || value.length<3 || !value.includes("."))
       {
          return (
@@ -116,7 +150,7 @@ class SiteTable extends Component {
          console.log("Add Row Value clicked")
       console.log(value)
       var curr = this.state.sites
-      let newobj = {id: 0, domain: value, cdate: new Date().toString(), rev_score: '80%'}
+      let newobj = {id: this.state.sites.length+1,pages:[], domain: value, owner:1, cdate: "08/01/2020", rev_score: '80%'}
       
       curr.push(newobj)
       this.setState({
@@ -165,12 +199,12 @@ sortid(value){
    console.log(this.state.direction)
    if(this.state.direction < 1) {   
       this.state.sites.sort((a, b) => a.id - b.id).reverse()
-      elem.innerHTML = "ID 👇↓⌄";
+      elem.innerHTML = "ID 👇";
    }
    else{
       
       this.state.sites.sort((a, b) => a.id - b.id)
-      elem.innerHTML = "ID☝️↑˄⌃";
+      elem.innerHTML = "ID☝️";
    }
    
     console.log("id sort")
@@ -282,20 +316,7 @@ sortrevscore(){
        direction: -this.state.direction,
      });
     this.renderTableData()
-   /* this.state.sites.sort((a, b) => {
-      if (a.rev_score < b.rev_score) {
-        return -1;
-      }
-      if (a.rev_score > b.rev_score) {
-        return 1;
-      }
-      return 0;
-    });
-    console.log("url sort")
-    this.setState({
-      sites: this.state.sites,
-    });
-   this.renderTableData() */
+   
 }
 
 renderTableData() {
@@ -378,40 +399,7 @@ renderTableData() {
                 placeholder={"Input site"}
                 style={{height:'70%',width:'60%',display:"inline-block"}}
                 />
-                {/* <FormControl className={classes.formControl}>
-        <InputLabel id="demo-simple-select-label">Age</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={age}
-          onChange={handleChange}
-        >
-          <MenuItem value="10">ID (Ascending)</MenuItem>
-         <MenuItem value="20">ID (Descending)</MenuItem>
-         <MenuItem value="10">URL(A->Z)</MenuItem>
-         <MenuItem value="20">URL(Z->A)</MenuItem>
-         <MenuItem value="10">Date Created (Ascending)</MenuItem>
-         <MenuItem value="20">Date Created (Descending)</MenuItem>
-         <MenuItem value="10">Reviewer Score (Ascending)</MenuItem>
-         <MenuItem value="20">Reviewer Score (Descending)</MenuItem>
-        </Select>
-      </FormControl> */}
-
-        {/* <InputLabel id="label">Sort</InputLabel>
-         <Select labelId="label" id="select" value="20" float= "right" onChange={this.handleChange}>
-         <MenuItem value="id+">ID (Ascending)</MenuItem>
-         <MenuItem value="id-">ID (Descending)</MenuItem>
-         <MenuItem value="url+">URL(A->Z)</MenuItem>
-         <MenuItem value="url-">URL(Z->A)</MenuItem>
-         <MenuItem value="cdate+">Date Created (Ascending)</MenuItem>
-         <MenuItem value="cdate-">Date Created (Descending)</MenuItem>
-         <MenuItem value="rev+">Reviewer Score (Ascending)</MenuItem>
-         <MenuItem value="rev-">Reviewer Score (Descending)</MenuItem>
-         </Select> */}
-       {/*  <div className="btn" onClick={this.togglePop}>
-      <button>New User?</button>
-    </div>
-    {this.state.seen ? <PopUp toggle={this.togglePop} /> : null} */}
+               
       
         <table id='sites'>
            <th>
