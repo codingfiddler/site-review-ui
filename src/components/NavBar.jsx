@@ -45,7 +45,7 @@ export default class NavBar extends Component{
       
 
       <List component="nav">
-        <ul>
+        <ul class ="nav">
   <li><a href="/"> Home <RateReview/> </a></li>
   {/* <li><Link to="/dashboard">My Dashboard <Home /></Link></li> */}
   <li class="dropdown">

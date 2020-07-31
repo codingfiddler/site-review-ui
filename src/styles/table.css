@@ -28,8 +28,23 @@ a:link {
     padding-bottom: 12px;
     text-align: center;
     background-color: #276b80;
-    color: white;
+    color: black;
   }
+  .header {
+    border: 1px solid black;
+    border-radius: none;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: inherit;
+    padding: 0.5em;
+    margin-bottom: 1px;
+    background-color: #276b80;
+  }
+  .header:hover {
+    background-color: #bafbf7;
+  }
+  
+
   
   #row:hover{
       /* background-color:red; */

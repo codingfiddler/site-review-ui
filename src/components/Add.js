@@ -2,6 +2,7 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import TextField from "@material-ui/core/TextField";
+
 import React from "react";
 
 export default class Add extends React.Component{
@@ -26,6 +27,7 @@ export default class Add extends React.Component{
     return(
       <div style={{display:'inline'}}>
         <TextField
+        // error = {false}
           style={{ width: "50%", height}}
           id="input-with-icon-textfield"
 

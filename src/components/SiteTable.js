@@ -7,7 +7,6 @@ import PopUp from "./PopupPerm.jsx"
 import { StayCurrentLandscapeSharp } from '@material-ui/icons';
 import SortByAlphaIcon from '@material-ui/icons/SortByAlpha';
 import Pages from "../pages/Pages";
-
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
@@ -26,7 +25,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import TextField from "@material-ui/core/TextField";
 import { withRouter } from "react-router-dom";
-
+import InputLabel from '@material-ui/core/InputLabel';
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import {
    BrowserRouter as Router,
    Switch,
@@ -57,6 +57,7 @@ class SiteTable extends Component {
         this.props.onClick(this.state.addRow)
       }
     }
+    
     togglePop = () => {
       this.setState({
        seen: !this.state.seen
@@ -105,7 +106,7 @@ class SiteTable extends Component {
    renderTableHeader() {
     let header = ["id","URL","Date Created", "Reviewer Score", "Delete","Review"] //Object.keys(this.state.sites[0])
     return header.map((key, index) => {
-       return <th key={index}>{key.toUpperCase()}</th>
+       return <th key={index}><Button>{key.toUpperCase()}</Button></th>
     })
  }
 /* requestSort(value){
@@ -127,14 +128,24 @@ class SiteTable extends Component {
     this.renderTableData()
 } */
 sortid(value){
+   //neutralize others 
+   var url = document.getElementById("urlbton").innerHTML="URL";
+   var cdate = document.getElementById("cdatebton").innerHTML="Date Created";
+   var rev = document.getElementById("revbton").innerHTML="Reviewer Score";
+ 
+   //start
+  var elem = document.getElementById("idbton");
+
    //this.state.direction = value
    console.log(this.state.direction)
    if(this.state.direction < 1) {   
       this.state.sites.sort((a, b) => a.id - b.id).reverse()
+      elem.innerHTML = "ID 👇↓⌄";
    }
    else{
       
       this.state.sites.sort((a, b) => a.id - b.id)
+      elem.innerHTML = "ID☝️↑˄⌃";
    }
    
     console.log("id sort")
@@ -146,32 +157,25 @@ sortid(value){
    this.renderTableData()
 }
 sorturl(value){
-   //this.state.direction = value
-   /* console.log(this.state.direction)
-   if(this.state.direction < 1) {   
-      this.state.sites.sort((a, b) => a.url - b.url)
-   }
-   else{
-      this.state.sites.sort((a, b) => a.url - b.url).reverse()
-   }
-   
-    console.log("id sort")
-    console.log(this.state.sites)
-    this.setState({
-      sites: this.state.sites,
-      direction: -this.state.direction,
-    });
-   this.renderTableData() */
+  //neutralize others 
+  var id = document.getElementById("idbton").innerHTML="ID";
+  var cdate = document.getElementById("cdatebton").innerHTML="Date Created";
+  var rev = document.getElementById("revbton").innerHTML="Reviewer Score";
+
+  //start
+  var elem = document.getElementById("urlbton");
    console.log(this.state.direction)
    if(this.state.direction < 1) {   
    this.state.sites.sort((a, b) => {
       return -(a.url).localeCompare(b.url);
     });
+    elem.innerHTML = "URL👇";
    }
    else{
       this.state.sites.sort((a, b) => {
          return (a.url).localeCompare(b.url)
        });
+      elem.innerHTML = "URL☝️";
    }
      console.log("url sort")
      this.setState({
@@ -182,6 +186,14 @@ sorturl(value){
    
 }
 sortcdate(){
+  //neutralize others 
+  var id = document.getElementById("idbton").innerHTML="ID";
+  var url = document.getElementById("urlbton").innerHTML="URL";
+  var rev = document.getElementById("revbton").innerHTML="Reviewer Score";
+
+  //start
+ var elem = document.getElementById("cdatebton");
+
    if(this.state.direction < 1) {   
       this.state.sites.sort((a, b) => {
          var d1 = Date.parse(a.cdate);
@@ -194,6 +206,7 @@ sortcdate(){
           }
           return 0;
        });
+       elem.innerHTML = "Date Created👇";
       }
       else{
          this.state.sites.sort((a, b) => {
@@ -207,6 +220,7 @@ sortcdate(){
              }
              return 0;
           });
+          elem.innerHTML = "Date Created☝️";
       }
     console.log("url sort")
     this.setState({
@@ -216,16 +230,26 @@ sortcdate(){
    this.renderTableData()
 }
 sortrevscore(){
+   //neutralize others 
+   var id = document.getElementById("idbton").innerHTML="ID";
+   var url = document.getElementById("urlbton").innerHTML="URL";
+   var cdat = document.getElementById("cdatebton").innerHTML="Date Created";
+ 
+   //start
+  var elem = document.getElementById("revbton");
+
    console.log(this.state.direction)
    if(this.state.direction < 1) {   
    this.state.sites.sort((a, b) => {
       return -(a.rev_score).localeCompare(b.rev_score);
     });
+    elem.innerHTML = "Reviewer Score👇";
    }
    else{
       this.state.sites.sort((a, b) => {
          return (a.rev_score).localeCompare(b.rev_score);
        });
+       elem.innerHTML = "Reviewer Score☝️";
    }
      console.log("url sort")
      this.setState({
@@ -315,18 +339,11 @@ renderTableData() {
     return tableRows
  }
 
+
    render() { //Whenever our class runs, render method will be called automatically, it may have already defined in the constructor behind the scene.
       return (
         <div>
-           
-        <Box padding="2.5% 0">
-        <TextField
-          label="Search for pages..."
-          type="search"
-          variant="outlined"
-        />
-      </Box>
-      
+        
         <Add data= {this.state}
                 ref={input => this.inputElement = input}
                 onClick={(val) => { this.addRow(val)}} 
@@ -334,8 +351,38 @@ renderTableData() {
                 onCancel={() => { this.addRow('') }}
                //  onKeyDown={this.keyPress}
                 placeholder={"Input site"}
-                style={{height:'70%',width:'60%'}}
+                style={{height:'70%',width:'60%',display:"inline-block"}}
                 />
+                {/* <FormControl className={classes.formControl}>
+        <InputLabel id="demo-simple-select-label">Age</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={age}
+          onChange={handleChange}
+        >
+          <MenuItem value="10">ID (Ascending)</MenuItem>
+         <MenuItem value="20">ID (Descending)</MenuItem>
+         <MenuItem value="10">URL(A->Z)</MenuItem>
+         <MenuItem value="20">URL(Z->A)</MenuItem>
+         <MenuItem value="10">Date Created (Ascending)</MenuItem>
+         <MenuItem value="20">Date Created (Descending)</MenuItem>
+         <MenuItem value="10">Reviewer Score (Ascending)</MenuItem>
+         <MenuItem value="20">Reviewer Score (Descending)</MenuItem>
+        </Select>
+      </FormControl> */}
+
+        {/* <InputLabel id="label">Sort</InputLabel>
+         <Select labelId="label" id="select" value="20" float= "right" onChange={this.handleChange}>
+         <MenuItem value="id+">ID (Ascending)</MenuItem>
+         <MenuItem value="id-">ID (Descending)</MenuItem>
+         <MenuItem value="url+">URL(A->Z)</MenuItem>
+         <MenuItem value="url-">URL(Z->A)</MenuItem>
+         <MenuItem value="cdate+">Date Created (Ascending)</MenuItem>
+         <MenuItem value="cdate-">Date Created (Descending)</MenuItem>
+         <MenuItem value="rev+">Reviewer Score (Ascending)</MenuItem>
+         <MenuItem value="rev-">Reviewer Score (Descending)</MenuItem>
+         </Select> */}
        {/*  <div className="btn" onClick={this.togglePop}>
       <button>New User?</button>
     </div>
@@ -343,16 +390,15 @@ renderTableData() {
       
         <table id='sites'>
            <th>
-           <button
-              type="button" onClick={() =>this.sortid(this.direction)
-               }
-            >
+           <button class = "header"
+              type="button" id ="idbton" value = "ID"onClick={() =>this.sortid(this.direction)}
+          >
               ID
             </button>
           </th>
           <th>
-            <button
-              type="button"
+            <button class = "header"
+              type="button" id= "urlbton"
               onClick={() => this.sorturl(this.direction)}
              
             >
@@ -360,25 +406,27 @@ renderTableData() {
             </button>
           </th>
           <th>
-            <button
-              type="button"
-              onClick={() => this.sortcdate()}
+            <button class = "header"
+              type="button" id = "cdatebton"
+              onClick={() => this.sortcdate(this.direction)}
              
             >
               Date Created
             </button>
             </th>
             <th>
-            <button
-              type="button"
-              onClick={() => this.sortrevscore()}
+            <button class = "header"
+              type="button" id ="revbton"
+              onClick={() => this.sortrevscore(this.direction)}
              
             >
               Reviewer Score
             </button>
             </th>
+            <th>Delete</th>
+            <th>Review</th>
             <tbody>
-           <tr>{this.renderTableHeader()}</tr>
+           {/* <tr>{this.renderTableHeader()}</tr> */}
            
                   {this.renderTableData()}
            </tbody>
